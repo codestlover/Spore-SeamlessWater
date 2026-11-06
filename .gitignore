@@ -1,0 +1,14 @@
+
+/build/
+/dist/
+/deps/
+/CMakeCache.txt
+/CMakeFiles/
+
+/research/
+/docs/
+/tests/
+/tools/
+/packaging/
+/backups/
+
