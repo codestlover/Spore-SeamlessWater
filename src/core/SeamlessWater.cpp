@@ -250,7 +250,8 @@ void Restore() {
 bool HostMatches() {
     auto* dos = reinterpret_cast<IMAGE_DOS_HEADER*>(gameBase);
     auto* nt = reinterpret_cast<IMAGE_NT_HEADERS*>(gameBase + dos->e_lfanew);
-    return nt->FileHeader.Machine == IMAGE_FILE_MACHINE_I386 && nt->OptionalHeader.SizeOfImage == HostImageSize &&
+    unsigned size = nt->OptionalHeader.SizeOfImage;
+    return nt->FileHeader.Machine == IMAGE_FILE_MACHINE_I386 && (size == HostImageSize || size == SteamHostImageSize) &&
            nt->FileHeader.TimeDateStamp == HostTimestamp;
 }
 
@@ -267,7 +268,7 @@ void Init() {
     const wchar_t* text =
         !host ? L"" SEAMLESS_WATER_NAME " could not start: this version of Spore is not supported. Planet water keeps "
                 L"its seams.\n\n" SEAMLESS_WATER_NAME " supports only Spore Galactic Adventures with the March 2017 "
-                L"patch (SporeApp_ModAPIFix.exe)."
+                L"patch (SporeApp_ModAPIFix.exe, or Steam's SporeApp.exe)."
               : L"" SEAMLESS_WATER_NAME " could not start: the game's planet water shaders are not the ones it knows, "
                 L"most likely because another mod has replaced them. Planet water keeps that mod's look.";
     MessageBoxW(nullptr, text, ModNameWide, MB_OK | MB_ICONERROR);

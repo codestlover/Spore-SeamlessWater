@@ -1,7 +1,7 @@
 
 # Notices
 
-Seamless Water 1.1.0 is licensed under GPL-3.0-or-later; see `LICENSE`.
+Seamless Water 1.1.1 is licensed under GPL-3.0-or-later; see `LICENSE`.
 
 The shaders in `src/shaders` are derived from the planet water shader fragments of *Spore* and *Spore Galactic
 Adventures* by Maxis/Electronic Arts, with the seamless sampling added. The game's code and assets remain the property

@@ -4,8 +4,8 @@
 A small *Spore* mod that removes the seams in planet water: the waves, foam and surface pattern on seas and lakes no
 longer break off along lines across the planet.
 
-Current version: **1.1.0**. Download `SeamlessWater.sporemod` from the
-[Seamless Water 1.1.0](../../releases/tag/v1.1.0) release.
+Current version: **1.1.1**. Download `SeamlessWater.sporemod` from the
+[Seamless Water 1.1.1](../../releases/tag/v1.1.1) release.
 
 ## What it changes
 
@@ -44,8 +44,9 @@ This has not been measured.
 To remove the mod, use **Spore ModAPI Easy Uninstaller → Seamless Water**. The mod stores nothing in saves.
 
 Seamless Water supports *Spore Galactic Adventures* with the March 2017 patch (`SporeApp_ModAPIFix.exe`, the version
-the ModAPI Launcher Kit runs). On any other game build it changes nothing and shows a message instead. It also
-shows a message when it finds water shaders it does not know, and then leaves the water as it is.
+the ModAPI Launcher Kit runs, and the `SporeApp.exe` of the Steam copy, the same game build). On any other game build
+it changes nothing and shows a message instead. It also shows a message when it finds water shaders it does not know,
+and then leaves the water as it is.
 
 ## Other mods
 
@@ -64,7 +65,8 @@ load order. Alone, Seamless Water draws exactly what it did before.
 
 The mod is a 32-bit DLL loaded by the ModAPI Launcher. After the game has finished starting up it:
 
-- checks the game executable by its time stamp and image size;
+- checks the game executable by its time stamp and image size (Steam's copy is the same build with Steam's own
+  section on top, so its image is larger);
 - finds the planet water shaders in the game's vertex and pixel shader tables by their names, and checks each
   original by the SHA-256 of its bytecode and by the layout of its shader constants;
 - creates its own versions of those shaders with Direct3D, checks the bytecode of each created shader by SHA-256
@@ -113,7 +115,11 @@ Releases are checked with tests that are not part of this repository:
 
 - the compiled shaders must be byte for byte the ones that were tried in the game;
 - a Wine test loads the DLL with a stand-in `SporeModAPI.dll`, checks that it registers its start and shutdown,
-  refuses another executable with its message and offers no reflections; and
+  refuses another executable with its message and offers no reflections;
+- a Wine test starts the DLL with the header of `SporeApp_ModAPIFix.exe`, of Steam's `SporeApp.exe` and of builds
+  that differ from them in one field, and checks that it takes the first two and refuses the rest;
+- a check maps both executables at 0x400000 and at moved bases, with their relocations applied as Windows applies
+  them, and finds the three game addresses the mod reads where the game's own code reaches them; and
 - a Direct3D 9 test under Wine and DXVK, from Truely!NO-LOD:Enchanted, draws water with the versions that carry the
   reflection and checks that the reflection reaches them and that at strength 0 the picture is the original one.
 
